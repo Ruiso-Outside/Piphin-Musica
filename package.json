@@ -1,0 +1,13 @@
+{
+  "name": "piphin-musica",
+  "productName": "Piphin Música",
+  "version": "1.0.0",
+  "description": "Piphin Música: player com músicas livres (Creative Commons) para baixar e suas próprias músicas, módulo do Piphin Hub",
+  "author": "Piphin Studio",
+  "private": true,
+  "scripts": {
+    "icons": "node scripts/make-icons.js",
+    "icon": "node scripts/run-electron.js scripts/make-icon.js",
+    "module": "node scripts/make-module.js"
+  }
+}

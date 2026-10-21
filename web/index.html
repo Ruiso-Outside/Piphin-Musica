@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob: https: http://127.0.0.1:* piphin:; media-src 'self' blob: http://127.0.0.1:*; connect-src 'self' blob: http://127.0.0.1:*; style-src 'self' 'unsafe-inline' piphin:; script-src 'self'; worker-src 'self' blob:; font-src 'self' data: piphin:">
+  <title>Piphin Música</title>
+  <link rel="stylesheet" href="piphin://ui/kit.css">
+  <link rel="stylesheet" href="icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="in-hub">
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><span class="logo"><i class="i i-music-2"></i></span>Música</div>
+      <button class="nav" data-view="explore"><i class="i i-compass"></i>Descobrir</button>
+      <button class="nav" data-view="library"><i class="i i-library"></i>Biblioteca</button>
+      <button class="nav" data-view="liked"><i class="i i-heart"></i>Curtidas</button>
+      <button class="nav" data-view="credits"><i class="i i-creative-commons"></i>Créditos</button>
+      <div class="side-head"><span>Playlists</span>
+        <button class="btn icon ghost xs" id="importPl" title="Importar playlist (.m3u)"><i class="i i-import"></i></button>
+        <button class="btn icon ghost xs" id="newPl" title="Nova playlist"><i class="i i-plus"></i></button>
+      </div>
+      <div class="pls" id="pls"></div>
+    </aside>
+    <main id="content"></main>
+    <aside class="queue" id="queue" hidden></aside>
+  </div>
+
+  <footer class="player" id="player">
+    <div class="now">
+      <div class="cover sm" id="npCover"><i class="i i-music"></i></div>
+      <div class="np-text"><b id="npTitle">Nada tocando</b><span id="npArtist">Escolha uma música para ouvir</span></div>
+      <button class="btn icon ghost sm" id="npLike" title="Curtir" hidden><i class="i i-heart"></i></button>
+    </div>
+    <div class="pcenter">
+      <div class="ctrls">
+        <button class="btn icon ghost sm" id="shuffle" title="Aleatório"><i class="i i-shuffle"></i></button>
+        <button class="btn icon ghost" id="prev" title="Anterior"><i class="i i-skip-back"></i></button>
+        <button class="playbtn" id="play" title="Tocar / pausar (espaço)"><i class="i i-play"></i></button>
+        <button class="btn icon ghost" id="next" title="Próxima"><i class="i i-skip-forward"></i></button>
+        <button class="btn icon ghost sm" id="repeat" title="Repetir"><i class="i i-repeat"></i></button>
+      </div>
+      <div class="seek"><span id="tCur">0:00</span><input type="range" id="seek" min="0" max="1000" value="0"><span id="tDur">0:00</span></div>
+    </div>
+    <div class="right">
+      <button class="btn icon ghost sm" id="eqBtn" title="Equalizador"><i class="i i-sliders-horizontal"></i></button>
+      <button class="btn icon ghost sm" id="queueBtn" title="Fila"><i class="i i-list-music"></i></button>
+      <button class="btn icon ghost sm" id="mute" title="Mudo"><i class="i i-volume-2"></i></button>
+      <input type="range" id="vol" min="0" max="100" value="80" class="vol">
+    </div>
+  </footer>
+
+  <div id="menu" class="menu" hidden></div>
+  <div id="modal" class="modal" hidden><div class="modal-box" id="modalBox"></div></div>
+  <div id="toasts" class="toasts"></div>
+  <script src="vendor/mediabunny.min.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

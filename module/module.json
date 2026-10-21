@@ -1,0 +1,89 @@
+{
+  "id": "musica",
+  "name": "Piphin Música",
+  "version": "0.0.0",
+  "description": "Baixe músicas livres (Creative Commons e domínio público) e ouça junto com as suas, com playlists, curtidas e equalizador.",
+  "main": "backend.js",
+  "ui": "web/index.html",
+  "icon": "icons/musica.png",
+  "accent": "#ec4899",
+  "minHub": "1.4.0",
+  "tools": [
+    {
+      "name": "search_music",
+      "title": "Buscar músicas livres",
+      "readOnly": true,
+      "description": "Busca músicas gratuitas e legais de baixar (Creative Commons / domínio público) no Openverse (inclui Jamendo), ccMixter (por gênero) ou Internet Archive (álbuns de netlabels). Palavras em inglês acham mais (ex.: 'lofi', 'epic orchestral', 'happy acoustic'). Com for_videos=true, só músicas que podem ser usadas em vídeos (com crédito). Devolve ids para download_music.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "O que procurar: estilo, clima, instrumento, artista ou nome" },
+          "source": { "type": "string", "enum": ["openverse", "ccmixter", "archive"], "description": "Fonte (padrão openverse). ccmixter busca por um gênero de uma palavra." },
+          "for_videos": { "type": "boolean", "description": "Só músicas liberadas para usar em vídeos (CC BY, CC BY-SA, CC0, domínio público)" },
+          "limit": { "type": "integer", "minimum": 1, "maximum": 20 }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "download_music",
+      "title": "Baixar músicas",
+      "description": "Baixa uma ou mais músicas encontradas por search_music para a pasta de músicas e a biblioteca do Piphin Música. Opcional: playlist (nome) para colocar as baixadas numa playlist (cria se não existir). Devolve o crédito que deve ser dado ao usar a música.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "ids": { "type": "array", "items": { "type": "string" }, "description": "ids vindos de search_music" },
+          "playlist": { "type": "string" }
+        },
+        "required": ["ids"]
+      }
+    },
+    {
+      "name": "library_info",
+      "title": "Ver a biblioteca de músicas",
+      "readOnly": true,
+      "description": "Mostra quantas músicas a pessoa tem (baixadas e próprias), curtidas, playlists e as músicas mais recentes com track_id.",
+      "input": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "create_playlist",
+      "title": "Criar playlist",
+      "description": "Cria uma playlist com músicas da biblioteca (por track_id ou parte do nome/artista).",
+      "input": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "tracks": { "type": "array", "items": { "type": "string" }, "description": "track_id ou nome das músicas" }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "play_music",
+      "title": "Tocar música",
+      "description": "Toca no Piphin Música: uma playlist (pelo nome), músicas da biblioteca (busca por nome/artista) ou tudo. Sem nada, toca a biblioteca inteira.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "playlist": { "type": "string" },
+          "query": { "type": "string", "description": "Parte do nome, artista ou álbum" },
+          "liked": { "type": "boolean", "description": "Tocar as curtidas" },
+          "shuffle": { "type": "boolean" }
+        }
+      }
+    },
+    {
+      "name": "player_control",
+      "title": "Controlar o player",
+      "description": "Controla o que está tocando: pausar, continuar, próxima, anterior, volume (0 a 100) ou saber o que está tocando (status).",
+      "input": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string", "enum": ["pause", "resume", "next", "previous", "volume", "status"] },
+          "volume": { "type": "integer", "minimum": 0, "maximum": 100 }
+        },
+        "required": ["action"]
+      }
+    }
+  ]
+}
