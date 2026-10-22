@@ -8,6 +8,7 @@
   "icon": "icons/musica.png",
   "accent": "#ec4899",
   "minHub": "1.4.0",
+  "opens": ["audio"],
   "tools": [
     {
       "name": "search_music",

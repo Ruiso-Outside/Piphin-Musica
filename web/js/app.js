@@ -426,6 +426,11 @@ function trackMenu(anchor, t, ctx = {}) {
     { label: "Mostrar no Explorer", icon: "folder-open", fn: () => call("show-item", t.path) },
     ...(t.pageUrl ? [{ label: "Abrir a página da música", icon: "external-link", fn: () => window.open(t.pageUrl) }] : []),
     ...(t.attribution ? [{ label: "Copiar crédito", icon: "copy", fn: () => copy(t.attribution) }] : []),
+    // outros módulos que usam a música (ex.: Piphin Vídeo), pela Mídia do Hub
+    ...(S.openers || []).map((o) => ({ label: `Usar no ${o.name}`, icon: "external-link", fn: async () => {
+      if (o.id === "video" && t.origin === "download" && !t.videoOk) toast("Atenção: a licença desta música não permite usar em vídeos publicados", "err");
+      await call("open-in", o.id, t.id);
+    } })),
     "-",
     ...(ctx.playlist ? [{ label: "Tirar desta playlist", icon: "minus", fn: () => call("playlist-update", ctx.playlist, { remove: [t.id] }) }] : []),
     { label: "Remover da biblioteca", icon: "trash-2", danger: true, fn: () => removeTracks([t]) },
@@ -562,6 +567,18 @@ piphin.on("ai-call", async ({ id, name, args }) => {
   catch (e) { piphin.invoke("ai-reply", id, false, e.message); }
 });
 window.addEventListener("beforeunload", () => { piphin.invoke("ui-unload"); Player.pause(); });
+// módulos que usam músicas (Mídia do Hub 1.7.0+)
+const loadOpeners = () => call("openers").then((l) => (S.openers = l || [])).catch(() => (S.openers = []));
+document.addEventListener("visibilitychange", () => { if (!document.hidden) loadOpeners(); });
+// chegou de outro módulo ("Abrir no Piphin Música"): toca
+piphin.on("play-file", async ({ id, from }) => {
+  await loadLib().catch(() => {});
+  const t = byId(id);
+  if (!t) return;
+  go("library");
+  playTracks([t], t.id);
+  toast(`"${t.title}" chegou do ${from || "Hub"}`, "ok");
+});
 
 // ---------------------------------------------------------------- início
 (async () => {
@@ -574,6 +591,7 @@ window.addEventListener("beforeunload", () => { piphin.invoke("ui-unload"); Play
   if (p.eqOn === false) st.eqOn = false;
   Player.setVolume(st.volume); refreshNow(); refreshTime();
   await loadLib().catch((e) => toast(e.message, "err"));
+  loadOpeners();
   go(S.lib.tracks.length ? "library" : "explore");
   piphin.invoke("ui-ready");
 })();

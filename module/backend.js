@@ -1,5 +1,7 @@
 // Piphin Música como módulo do Piphin Hub: busca e baixa músicas livres (Creative Commons / domínio público),
 // guarda a biblioteca (baixadas + as músicas da própria pessoa), playlists e créditos; a tela toca.
+// Com o Hub 1.7.0+, as músicas baixadas entram na Mídia do Hub (com licença e crédito) e os outros módulos usam:
+// o Piphin Vídeo, por exemplo, mostra as músicas e lembra o crédito ao exportar.
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -19,7 +21,42 @@ exports.activate = (ctx) => {
   const save = () => { clearTimeout(saveTimer); saveTimer = setTimeout(() => { fs.mkdirSync(ctx.dataDir, { recursive: true }); fs.writeFileSync(LIB, JSON.stringify(lib)); }, 300); };
   const musicDir = () => { const p = readJson(PREFS, {}); return p.folder || path.join(os.homedir(), "Music", "Piphin Música"); };
   const uid = () => crypto.randomBytes(5).toString("hex");
-  const changed = () => { save(); ctx.emit("library", publicLib()); };
+  const changed = () => { save(); ctx.emit("library", publicLib()); syncHub(); };
+
+  // ---------------------------------------------------------------- Mídia do Hub (no Hub antigo, ctx.host.library não existe)
+  const hubLib = ctx.host.library || null;
+  let syncTimer = 0;
+  // só as baixadas por aqui (as músicas da própria pessoa continuam só no Piphin Música)
+  function syncHub() {
+    if (!hubLib) return;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => {
+      const items = lib.tracks.filter((t) => t.origin === "download" && fs.existsSync(t.path)).map((t) => ({
+        path: t.path, kind: "audio", title: t.title, artist: t.artist, album: t.album || undefined, duration: t.duration || undefined,
+        sub: "Música baixada", license: t.license || undefined, credit: t.attribution || undefined, videoOk: !!t.videoOk,
+        cover: t.coverFile || undefined, tags: (t.genres || []).slice(0, 6), addedAt: t.addedAt }));
+      hubLib.sync(items).catch((e) => ctx.log("mídia", e));
+    }, 500);
+  }
+  syncHub();
+  ctx.handle("openers", () => (ctx.host.openers ? ctx.host.openers("audio") : []));
+  ctx.handle("open-in", (target, id) => {
+    const t = lib.tracks.find((x) => x.id === id);
+    if (!t) throw new Error("Música não encontrada");
+    return ctx.host.openIn(target, { path: t.path, title: t.title });
+  });
+  // "Abrir no Piphin Música" de outro módulo (ex.: uma música feita no Piphin Som): entra na biblioteca e toca
+  let uiWaiting = null;
+  ctx.host.on("open-file", async (f) => {
+    try {
+      addLocal([f.path]);
+      const t = lib.tracks.find((x) => x.path.toLowerCase() === String(f.path).toLowerCase());
+      if (!t) return;
+      if (f.title && t.needsTags) { t.title = f.title; if (f.fromName) t.album = f.fromName; changed(); }
+      if (!uiReady) { await ctx.host.focus().catch(() => {}); await new Promise((r) => { uiWaiting = r; setTimeout(r, 20000); }); }
+      ctx.emit("play-file", { id: t.id, from: f.fromName });
+    } catch (e) { ctx.log("abrir arquivo", e); }
+  });
 
   // ---------------------------------------------------------------- servidor local (a tela toca os arquivos do disco por aqui)
   const token = crypto.randomBytes(16).toString("hex");
@@ -218,7 +255,7 @@ exports.activate = (ctx) => {
 
   // ---------------------------------------------------------------- ferramentas para a IA (module.json "tools")
   let uiReady = false; const waiters = [], pending = new Map(); let aiSeq = 0;
-  ctx.handle("ui-ready", () => { uiReady = true; waiters.splice(0).forEach((f) => f()); return true; });
+  ctx.handle("ui-ready", () => { uiReady = true; waiters.splice(0).forEach((f) => f()); if (uiWaiting) { uiWaiting(); uiWaiting = null; } return true; });
   ctx.handle("ui-unload", () => { uiReady = false; for (const p of pending.values()) p.reject(new Error("A tela do Piphin Música foi fechada")); pending.clear(); return true; });
   ctx.handle("ai-reply", (id, ok, data) => { const p = pending.get(id); if (p) { pending.delete(id); ok ? p.resolve(data) : p.reject(new Error(data)); } return true; });
   async function toUi(name, args) {

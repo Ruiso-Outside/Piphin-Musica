@@ -17,6 +17,10 @@ Baixe músicas livres de graça e ouça junto com as suas, com playlists, curtid
 - **Créditos**: o texto de atribuição de cada música baixada, com a licença explicada em palavras simples
 - **IA**: com o Piphin LLM, a IA busca e baixa músicas, cria playlists, toca e controla o player
 
+## Mídia do Hub
+Com o Piphin Hub 1.7.0 ou mais novo, as músicas baixadas entram na **Mídia** do Hub com a licença e o crédito, e o Piphin Vídeo usa direto (e lembra o crédito ao exportar).
+No menu ⋮ de uma música: **Usar no Piphin Vídeo** (ou no Piphin Som). E o que vier de outro módulo ("Abrir no Piphin Música", por exemplo uma música feita no Piphin Som) entra na biblioteca e toca.
+
 ## Estrutura
 
 - `module/`
