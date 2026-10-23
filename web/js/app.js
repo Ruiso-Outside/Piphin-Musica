@@ -226,7 +226,7 @@ async function addToPlaylist(plId, ids) {
   const p = S.lib.playlists.find((x) => x.id === plId); if (!p) return;
   const fresh = ids.filter((id) => !p.trackIds.includes(id));
   await call("playlist-update", plId, { add: fresh });
-  toast(fresh.length ? `Adicionada${fresh.length > 1 ? "s" : ""} a "${p.name}"` : `Já estava em "${p.name}"`, fresh.length ? "ok" : "");
+  toast(fresh.length ? `Adicionado a "${p.name}"` : `Já estava em "${p.name}"`, fresh.length ? "ok" : "");
 }
 function go(view) { S.view = view; hideMenu(); renderSide(); render(); $("#content").scrollTop = 0; if (view === "explore" && !S.ex.searched) search(); }
 
@@ -269,7 +269,7 @@ function results() {
   return `<div class="rlist">${e.items.map(resultRow).join("")}</div>${more}`;
 }
 const licBadge = (x) => x.videoOk ? `<span class="lic ok" title="${esc(x.licenseName)}: pode usar em vídeos e projetos, dando o crédito"><i class="i i-badge-check"></i>${esc(x.license)}</span>`
-  : `<span class="lic" title="${esc(x.licenseName)}: grátis para ouvir e compartilhar${/NC/.test(x.license) ? "; não pode usar para ganhar dinheiro" : ""}${/ND/.test(x.license) ? "; não pode modificar nem usar como trilha" : ""}">${esc(x.license)}</span>`;
+  : `<span class="lic" title="${esc([`${x.licenseName}: grátis para ouvir e compartilhar`, /NC/.test(x.license) && "não pode usar para ganhar dinheiro", /ND/.test(x.license) && "não pode modificar nem usar como trilha"].filter(Boolean).join("; "))}">${esc(x.license)}</span>`;
 const albumCard = (a) => `<button class="acard" data-album="${esc(a.id)}">${coverHtml(a.cover, "lg")}<b>${esc(a.title)}</b><span>${esc(a.artist || "")}${a.year ? " · " + esc(a.year) : ""}</span>${licBadge(a)}</button>`;
 function resultRow(x) {
   const t = byRemote(x.id), it = Player.current(), on = it && (it.key === "r:" + x.id || (t && it.key === "t:" + t.id)), pct = S.dl.get(x.id);
