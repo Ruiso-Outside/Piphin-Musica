@@ -281,7 +281,7 @@ function resultRow(x) {
     <div class="tt"><b>${esc(x.title)}</b><span>${esc(x.artist)}${x.album ? ` · ${esc(x.album)}` : ""}</span></div>
     <div class="tags">${(x.genres || []).slice(0, 3).map((g) => `<span>${esc(g)}</span>`).join("")}</div>
     ${licBadge(x)}<span class="dur">${x.duration ? tm(x.duration) : ""}</span>${dl}
-    <button class="btn icon ghost xs" data-act="rmenu"><i class="i i-ellipsis-vertical"></i></button></div>`;
+    <button class="btn icon ghost xs" data-act="rmenu" title="Mais opções"><i class="i i-ellipsis-vertical"></i></button></div>`;
 }
 function albumView() {
   if (!S.album) return `<div class="loading"><span class="spin"></span><b>Abrindo o álbum...</b></div>`;

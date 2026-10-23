@@ -1,7 +1,7 @@
 {
   "name": "piphin-musica",
   "productName": "Piphin Música",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Piphin Música: player com músicas livres (Creative Commons) para baixar e suas próprias músicas, módulo do Piphin Hub",
   "author": "Piphin Studio",
   "private": true,
