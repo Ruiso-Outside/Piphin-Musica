@@ -256,13 +256,13 @@ exports.activate = (ctx) => {
   // ---------------------------------------------------------------- ferramentas para a IA (module.json "tools")
   let uiReady = false; const waiters = [], pending = new Map(); let aiSeq = 0;
   ctx.handle("ui-ready", () => { uiReady = true; waiters.splice(0).forEach((f) => f()); if (uiWaiting) { uiWaiting(); uiWaiting = null; } return true; });
-  ctx.handle("ui-unload", () => { uiReady = false; for (const p of pending.values()) p.reject(new Error("A tela do Piphin Música foi fechada")); pending.clear(); return true; });
+  ctx.handle("ui-unload", () => { uiReady = false; for (const p of pending.values()) p.reject(new Error("A tela do Arasaka Radioport foi fechada")); pending.clear(); return true; });
   ctx.handle("ai-reply", (id, ok, data) => { const p = pending.get(id); if (p) { pending.delete(id); ok ? p.resolve(data) : p.reject(new Error(data)); } return true; });
   async function toUi(name, args) {
-    if (!uiReady) { await ctx.host.focus().catch(() => {}); await new Promise((res, rej) => { const t = setTimeout(() => rej(new Error("A tela do Piphin Música não abriu")), 20000); waiters.push(() => { clearTimeout(t); res(); }); }); }
+    if (!uiReady) { await ctx.host.focus().catch(() => {}); await new Promise((res, rej) => { const t = setTimeout(() => rej(new Error("A tela do Arasaka Radioport não abriu")), 20000); waiters.push(() => { clearTimeout(t); res(); }); }); }
     const id = ++aiSeq;
     return new Promise((resolve, reject) => {
-      const t = setTimeout(() => { pending.delete(id); reject(new Error("O Piphin Música não respondeu")); }, 60000);
+      const t = setTimeout(() => { pending.delete(id); reject(new Error("O Arasaka Radioport não respondeu")); }, 60000);
       pending.set(id, { resolve: (v) => { clearTimeout(t); resolve(v); }, reject: (e) => { clearTimeout(t); reject(e); } });
       ctx.emit("ai-call", { id, name, args: args || {} });
     });
@@ -289,7 +289,7 @@ exports.activate = (ctx) => {
       out.push({ track_id: t.id, title: t.title, artist: t.artist, file: t.path, license: t.license, credit: t.attribution });
     }
     if (a.playlist) { let p = lib.playlists.find((x) => x.name.toLowerCase() === String(a.playlist).toLowerCase()); if (!p) { p = { id: uid(), name: String(a.playlist), trackIds: [], createdAt: new Date().toISOString() }; lib.playlists.push(p); } for (const o of out) if (!p.trackIds.includes(o.track_id)) p.trackIds.push(o.track_id); changed(); }
-    ctx.host.notify("Piphin Música", out.length === 1 ? `A IA baixou "${out[0].title}"` : `A IA baixou ${out.length} músicas`).catch(() => {});
+    ctx.host.notify("Arasaka Radioport", out.length === 1 ? `A IA baixou "${out[0].title}"` : `A IA baixou ${out.length} músicas`).catch(() => {});
     return { downloaded: out, folder: musicDir() };
   });
   ctx.handle("tool:library_info", () => ({ tracks: lib.tracks.length, downloaded: lib.tracks.filter((t) => t.origin === "download").length, own: lib.tracks.filter((t) => t.origin === "local").length,

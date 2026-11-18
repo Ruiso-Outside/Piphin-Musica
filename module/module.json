@@ -1,12 +1,12 @@
 {
   "id": "musica",
-  "name": "Piphin Música",
+  "name": "Arasaka Radioport",
   "version": "0.0.0",
   "description": "Baixe músicas livres (Creative Commons e domínio público) e ouça junto com as suas, com playlists, curtidas e equalizador.",
   "main": "backend.js",
   "ui": "web/index.html",
   "icon": "icons/musica.png",
-  "accent": "#ec4899",
+  "accent": "#ff0000",
   "minHub": "1.4.0",
   "opens": ["audio"],
   "tools": [
@@ -29,7 +29,7 @@
     {
       "name": "download_music",
       "title": "Baixar músicas",
-      "description": "Baixa uma ou mais músicas encontradas por search_music para a pasta de músicas e a biblioteca do Piphin Música. Opcional: playlist (nome) para colocar as baixadas numa playlist (cria se não existir). Devolve o crédito que deve ser dado ao usar a música.",
+      "description": "Baixa uma ou mais músicas encontradas por search_music para a pasta de músicas e a biblioteca do Arasaka Radioport. Opcional: playlist (nome) para colocar as baixadas numa playlist (cria se não existir). Devolve o crédito que deve ser dado ao usar a música.",
       "input": {
         "type": "object",
         "properties": {
@@ -62,7 +62,7 @@
     {
       "name": "play_music",
       "title": "Tocar música",
-      "description": "Toca no Piphin Música: uma playlist (pelo nome), músicas da biblioteca (busca por nome/artista) ou tudo. Sem nada, toca a biblioteca inteira.",
+      "description": "Toca no Arasaka Radioport: uma playlist (pelo nome), músicas da biblioteca (busca por nome/artista) ou tudo. Sem nada, toca a biblioteca inteira.",
       "input": {
         "type": "object",
         "properties": {

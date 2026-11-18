@@ -447,7 +447,7 @@ function editTrack(t) {
     <label class="field"><span>Nome</span><input id="etT" maxlength="120" value="${esc(t.title)}"></label>
     <label class="field"><span>Artista</span><input id="etA" maxlength="120" value="${esc(t.artist)}"></label>
     <label class="field"><span>Álbum</span><input id="etL" maxlength="120" value="${esc(t.album)}"></label></div>
-    <p class="faint">Muda só como aparece aqui no Piphin Música (o arquivo não é alterado).</p>
+    <p class="faint">Muda só como aparece aqui no Arasaka Radioport (o arquivo não é alterado).</p>
     <div class="modal-actions"><button class="btn" data-n>Cancelar</button><button class="btn primary" data-y>Salvar</button></div>`);
   box.querySelector("[data-n]").onclick = closeModal;
   box.querySelector("[data-y]").onclick = guard(async () => { await call("track-update", t.id, { title: $("#etT").value.trim() || t.title, artist: $("#etA").value.trim(), album: $("#etL").value.trim() }); closeModal(); });
@@ -577,7 +577,7 @@ piphin.on("play-file", async ({ id, from }) => {
   if (!t) return;
   go("library");
   playTracks([t], t.id);
-  toast(`"${t.title}" chegou do ${from || "Hub"}`, "ok");
+  toast(`"${t.title}" chegou do ${from || "Central"}`, "ok");
 });
 
 // ---------------------------------------------------------------- início
