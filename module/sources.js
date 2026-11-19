@@ -3,7 +3,7 @@
 //   - Internet Archive (archive.org, coleção "netlabels"): álbuns de selos independentes com licença CC
 //   - ccMixter (ccmixter.org): músicas por gênero (tags)
 // Cada resultado vira o mesmo formato: { id, source, title, artist, album, duration, url, ext, cover, license, licenseUrl, pageUrl, videoOk }
-const UA = "PiphinMusica/1.0 (+https://github.com/Ruiso-Outside/Piphin-Musica)";
+const UA = "PiphinMusica/1.0 (+https://github.com/Ruiso-Outside/ArasakaRadioport)";
 
 const cache = new Map(); // url -> { at, data } (10 min): menos espera e menos uso do limite de buscas
 // uma nova tentativa quando a rede falha (sites pequenos às vezes recusam a primeira conexão)

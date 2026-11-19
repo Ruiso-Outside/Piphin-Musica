@@ -1,6 +1,8 @@
-# Piphin Música
+# Arasaka Radioport
 
-Baixe músicas livres de graça e ouça junto com as suas, com playlists, curtidas e equalizador. Módulo do [Piphin Hub](https://github.com/Ruiso-Outside/Piphin-Hub) (cerca de 300 KB).
+> Antes chamado **Piphin Música**. Os arquivos, pastas e dados continuam com o nome antigo.
+
+Baixe músicas livres de graça e ouça junto com as suas, com playlists, curtidas e equalizador. Módulo do [Arasaka Central](https://github.com/Ruiso-Outside/ArasakaCentral) (cerca de 300 KB).
 
 **Só fontes legais**: todas as músicas vêm de artistas que liberaram o download (Creative Commons e domínio público). Cada música mostra a licença e o que ela permite, e os créditos ficam guardados para copiar.
 
@@ -15,11 +17,11 @@ Baixe músicas livres de graça e ouça junto com as suas, com playlists, curtid
 - **Curtidas** e **playlists**: criar, renomear, arrastar para mudar a ordem, arrastar músicas para a playlist ao lado, importar e exportar `.m3u8`
 - **Player**: fila, aleatório, repetir, volume e **equalizador** de 10 bandas com predefinições. Funciona com as teclas de mídia do teclado e do Windows; a música continua ao fechar a janela do Hub
 - **Créditos**: o texto de atribuição de cada música baixada, com a licença explicada em palavras simples
-- **IA**: com o Piphin LLM, a IA busca e baixa músicas, cria playlists, toca e controla o player
+- **IA**: com o Arasaka Mikoshi, a IA busca e baixa músicas, cria playlists, toca e controla o player
 
 ## Mídia do Hub
-Com o Piphin Hub 1.7.0 ou mais novo, as músicas baixadas entram na **Mídia** do Hub com a licença e o crédito, e o Piphin Vídeo usa direto (e lembra o crédito ao exportar).
-No menu ⋮ de uma música: **Usar no Piphin Vídeo** (ou no Piphin Som). E o que vier de outro módulo ("Abrir no Piphin Música", por exemplo uma música feita no Piphin Som) entra na biblioteca e toca.
+Com a Arasaka Central 1.7.0 ou mais novo, as músicas baixadas entram na **Mídia** do Hub com a licença e o crédito, e o Arasaka Braindance usa direto (e lembra o crédito ao exportar).
+No menu ⋮ de uma música: **Usar no Arasaka Braindance** (ou no Arasaka Synth). E o que vier de outro módulo ("Abrir no Arasaka Radioport", por exemplo uma música feita no Arasaka Synth) entra na biblioteca e toca.
 
 ## Estrutura
 
